@@ -4,6 +4,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
+import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.hesperides.domain.modules.*;
@@ -26,6 +27,7 @@ import static org.axonframework.commandhandling.model.AggregateLifecycle.isLive;
 @Slf4j
 @Aggregate
 @NoArgsConstructor
+@ProcessingGroup("ModuleProcessor")
 class ModuleAggregate {
     @AggregateIdentifier
     Module.Key key;
