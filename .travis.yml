@@ -19,11 +19,16 @@ env:
   - secure: "gsPgkaqY+2pn6fE9rCABdQ896sgzo/Ypax9cQ8+YHt1ueSvf0irFYYae1HPS9+U011rpR8N/ICtF3ujTrUpfpBGL8lHSdCoH6e+nIzRt292/WcnRszyC91GyHM1MS0tBsTLbSet+xx3NqwE41x0ZTaYuokIIfb6w5CJvKJb+W0LpEHqMA6ZK3lI7oc2HZku7krGfziZesFukezuNuuVpj22d/9SjhHTV7+IEC0noD13330Cw/90Ldpr9HNGzu0dgpMbUU2VfP/f4ZZYlSYqQxsah3BfwH3XmvI9Am/FbGaZA2L0YjVS+Fq9rUHOq7dw9IfcDOyHPLKQ8PxlrfIhXBHEBnw5jspaumN49WSqbDm8RuGKrXS7n4PXIK4SRafeFdIhIMpGK17fbQHKuMkUIic5E9lMaZ/cgNdW2WTu+GoPZ2Hu8cgygm+xl11oPUId5/kg/Fng0Dp4bmh+e6h80HHVBHQyzlQ2OzbWmFCiKRqLQklFcMnkSKNnwUQSpv3zW6J4v92w1Ur1eqKU0UxbMxx7YZn6aynDzUCegHYWoCkAtAFxFKoNC4ymbB2uHLHMKiS/H3PrR3K2zg3XY56ktNJXYcvrO+lWtDApMNQYLHlWZ+W5hI2bEPuxSeSVn1zccLNqvPso87YsfM5LJdgjfjtaOAGHgLezFQJucmzRIcZ0=" # GPG_KEY_NAME
   - secure: "KraS/afE2uP9N3q5J/N6L39ANQWotrIXGWzBsG83UeRf9P96ODHI608ahlYv/YPg+xc+QdJ+d7r5Za62bOgJp+PRSbXVzk+R6WwPV7KlB3jpeHUV9Q36+nrV7ojgJicgXI6g47DNdPc2/Z+cX15dZCEGe8ZyF6E/X10lBxnB7UkaDBJh9P9mx2KKEXZQ7YK0TzTSZImHKMamNnlQBGKVEAi7XL0comx/O9OSeCvY6Yqao0X4V90w086222rKAXfwu8vCqYcwILUc6lVFpJcR8AMCwqJLE7nMWhV6brKRr2Q7NNQcx6QUo4sPsp6DhpCv/8oEy/xsSGdKmxRR4X+311ZtwE5tHWS97c4BYWINgFUvB+6FEa1H/N4k6iiWJrtSwDq+PEFim1DccYyoH1CZs4IjFHSRK7akgb/q4+uyBXLSOwpzvVnTYyE1Wes908nm01qiRt94viy2AaDxq+dbcyxRs0Kum54nme4a9kUrTJv56Oivkr70Ykb5fXvsTVb7S4+OlmSsEHAkAX2PDAEeQhK9vwm0v2XE/s9/5tpMk9MdwA4pGgK236doFfqZzTRYpfg7OVzlWVSR3eB1DvR1vwLExD87U8jNwwdbKA6Kotcevae1pNIVCBt92Wd/RCxczd09Otl14IVwCCRl00OJUCyHh2yEasLgSVCFaOxjRFI=" # GPG_PASSPHRASE
 stages:
+- name: deploy
 - name: build
 - name: test
 - name: docker
 jobs:
   include:
+  - stage: deploy
+    before_script:
+    - "gpg --fast-import ./.travis/codesigning.asc"
+    script: "./mvnw deploy -DskipTests=true -Dtravis --settings ./.travis/deploy-settings.xml"
   - stage: build
     script: "./mvnw clean package -Dmaven.test.skip=true --settings ./.travis/deploy-settings.xml"
   - stage: test
