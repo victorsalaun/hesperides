@@ -28,7 +28,7 @@ jobs:
   - stage: deploy
     before_script:
     - "gpg --fast-import ./.travis/codesigning.asc"
-    script: "./mvnw deploy -DskipTests=true -Dtravis --settings ./.travis/deploy-settings.xml"
+    script: "./mvnw deploy -DskipTests=true -Ddeploy --settings ./.travis/deploy-settings.xml"
   - stage: build
     script: "./mvnw clean package -Dmaven.test.skip=true --settings ./.travis/deploy-settings.xml"
   - stage: test

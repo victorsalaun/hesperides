@@ -361,6 +361,17 @@
                 <gpg.skip>true</gpg.skip>
             </properties>
         </profile>
+        <profile>
+            <id>deploy</id>
+            <activation>
+                <property>
+                    <name>deploy</name>
+                </property>
+            </activation>
+            <properties>
+                <gpg.skip>false</gpg.skip>
+            </properties>
+        </profile>
     </profiles>
 
     <inceptionYear>2016</inceptionYear>
