@@ -22,7 +22,7 @@ stages:
 - name: build
 - name: test
 - name: deploy
-  if: branch = develop AND type != pull_request AND fork = false
+  if: branch = develop AND type != pull_request AND not fork
 - name: docker
 jobs:
   include:
@@ -44,5 +44,5 @@ jobs:
     - gpg --import ./.travis/codesigning.asc
     script: "./mvnw deploy -DskipTests=true -Ddeploy --settings ./.travis/deploy-settings.xml"
   - stage: docker
-    if: type != pull_request AND fork = false
+    if: type != pull_request AND not fork
     script: "./.travis/docker_build_push.sh"
